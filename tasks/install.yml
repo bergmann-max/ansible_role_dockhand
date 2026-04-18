@@ -1,6 +1,13 @@
 ---
 # roles/dockhand/tasks/install.yml
 
+- name: Assert dockhand_user is set
+  ansible.builtin.assert:
+    that:
+      - dockhand_user | length > 0
+    fail_msg: "dockhand_user must be set to a valid OS user (e.g. dockhand_user: max)"
+  tags: install
+
 - name: Resolve UID for dockhand_user
   ansible.builtin.command:
     cmd: "id -u {{ dockhand_user }}"

@@ -12,7 +12,6 @@ Ansible role that deploys [Dockhand](https://github.com/fnsys/dockhand), a Docke
 - Ansible >= 2.10
 - Docker installed on target host
 - Traefik running and connected to a shared Docker network
-- Collection: `community.docker`
 
 ## Role Variables
 
