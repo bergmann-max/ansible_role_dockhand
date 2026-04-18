@@ -1,0 +1,12 @@
+# VS Code files for those working on multiple tools
+.vscode
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+# Docker
+.env
+
+# Ansible
+.ansible

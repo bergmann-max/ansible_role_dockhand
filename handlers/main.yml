@@ -1,0 +1,8 @@
+---
+# roles/ansible_role_template/handlers/main.yml
+
+- name: Reload bar
+  ansible.builtin.systemd:
+    name: bar
+    state: reloaded
+    enabled: true
