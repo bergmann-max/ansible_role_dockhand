@@ -27,7 +27,7 @@ Ansible role that deploys [Dockhand](https://github.com/fnsys/dockhand), a Docke
 | `dockhand_group` | `docker` | OS group for config files |
 | `dockhand_container_name` | `dockhand` | Docker container name |
 | `dockhand_port` | `3000` | Internal container port |
-| `dockhand_secret_key` | `""` | Session signing secret — **required**, use ansible-vault |
+| `dockhand_secret_key` | `""` | Session signing secret — **required** |
 | `dockhand_database_url` | `""` | PostgreSQL DSN — leave empty for SQLite |
 | `dockhand_disable_local_login` | `false` | Disable local password login (e.g. when using OIDC) |
 | `dockhand_skip_df_collection` | `false` | Skip disk usage collection |
@@ -68,7 +68,6 @@ ansible-galaxy install -r requirements.yml
         dockhand_user: "deploy"
         dockhand_domain: "dockhand.example.com"
         dockhand_traefik_network: "traefik_proxy"
-        dockhand_secret_key: "{{ vault_dockhand_secret_key }}"
 ```
 
 ## Tags

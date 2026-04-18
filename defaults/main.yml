@@ -24,7 +24,7 @@ dockhand_container_name: "dockhand"
 # Internal container port
 dockhand_port: 3000
 
-# Secret key used to sign sessions – MUST be set, use ansible-vault!
+# Secret key used to sign sessions
 dockhand_secret_key: ""
 
 # Optional: PostgreSQL connection string – leave empty to use SQLite (default)
@@ -33,10 +33,10 @@ dockhand_database_url: ""
 # Disable local password login (useful when OIDC/SSO is configured)
 dockhand_disable_local_login: false
 
-# Skip disk usage collection (useful on NAS devices with many mount points)
+# Skip disk usage collection
 dockhand_skip_df_collection: false
 
-# Public domain for the Dockhand web UI (used in Traefik router rule)
+# Public domain for the Dockhand web UI
 dockhand_domain: ""
 
 # Traefik: entrypoint to use (e.g. websecure)
