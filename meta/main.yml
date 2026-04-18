@@ -19,6 +19,3 @@ galaxy_info:
     - compose
     - container
     - ui
-
-dependencies:
-  - community.docker
