@@ -1,0 +1,24 @@
+---
+# roles/dockhand/meta/main.yml
+
+galaxy_info:
+  role_name: dockhand
+  author: Max Bergmann
+  description: >
+    Deploys Dockhand (Docker management UI) via Docker Compose.
+    Integrates with Traefik as reverse proxy.
+    Docker and Traefik must already be present on the target host.
+  license: Unlicense
+  min_ansible_version: "2.10"
+  platforms:
+    - name: Ubuntu
+  galaxy_tags:
+    - docker
+    - dockhand
+    - traefik
+    - compose
+    - container
+    - ui
+
+dependencies:
+  - community.docker
