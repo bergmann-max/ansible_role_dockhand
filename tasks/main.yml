@@ -1,12 +1,10 @@
 ---
-# roles/ansible_role_template/tasks/main.yml
+# roles/dockhand/tasks/main.yml
 
-- name: Foo_Bar
-  tags: foo, bar
-  block:
+- name: Install dockhand
+  ansible.builtin.include_tasks: install.yml
+  tags: install
 
-    - name: Update repositories cache and install "foo" package
-      ansible.builtin.apt:
-        name: foo
-        update_cache: true
-      notify: bar
+- name: Configure dockhand
+  ansible.builtin.include_tasks: configure.yml
+  tags: configure

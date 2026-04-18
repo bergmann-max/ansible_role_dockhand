@@ -1,2 +1,61 @@
 ---
-# roles/ansible_role_template/defaults/main.yml
+# Role: dockhand
+# Installs Dockhand (Docker management UI) via Docker Compose on a dedicated host.
+# Docker and Traefik are assumed to be already present.
+
+# Docker image for Dockhand (including tag, managed by Renovate)
+dockhand_image: "fnsys/dockhand:latest"
+
+# Directory where docker-compose.yml, .env and data volume live
+dockhand_config_dir: "/opt/dockhand"
+
+# Directory for persistent application data (database, stacks, cache)
+dockhand_data_dir: "/opt/dockhand/data"
+
+# OS user that owns the config files
+dockhand_user: ""
+
+# OS group for the config files
+dockhand_group: "docker"
+
+# Container name
+dockhand_container_name: "dockhand"
+
+# Internal container port
+dockhand_port: 3000
+
+# Secret key used to sign sessions – MUST be set, use ansible-vault!
+dockhand_secret_key: ""
+
+# Optional: PostgreSQL connection string – leave empty to use SQLite (default)
+dockhand_database_url: ""
+
+# Disable local password login (useful when OIDC/SSO is configured)
+dockhand_disable_local_login: false
+
+# Skip disk usage collection (useful on NAS devices with many mount points)
+dockhand_skip_df_collection: false
+
+# Public domain for the Dockhand web UI (used in Traefik router rule)
+dockhand_domain: ""
+
+# Traefik: entrypoint to use (e.g. websecure)
+dockhand_traefik_entrypoint: "websecure"
+
+# Traefik: TLS certresolver name
+dockhand_traefik_certresolver: "cloudflare"
+
+# Traefik: name of the external Traefik Docker network
+dockhand_traefik_network: ""
+
+# Docker socket path (mounted into the container)
+dockhand_docker_socket: "/var/run/docker.sock"
+
+# Restart policy for the container
+dockhand_restart_policy: "unless-stopped"
+
+# Extra environment variables passed into the container (key: value pairs)
+dockhand_extra_env: {}
+
+# Extra labels applied to the container
+dockhand_extra_labels: {}

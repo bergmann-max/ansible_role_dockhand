@@ -1,0 +1,63 @@
+---
+# roles/dockhand/tasks/install.yml
+
+- name: Resolve UID for dockhand_user
+  ansible.builtin.command:
+    cmd: "id -u {{ dockhand_user }}"
+  register: _dockhand_uid
+  changed_when: false
+  tags: install
+
+- name: Resolve GID for dockhand_group
+  ansible.builtin.command:
+    cmd: "id -g {{ dockhand_user }}"
+  register: _dockhand_gid
+  changed_when: false
+  tags: install
+
+- name: Set dockhand_puid / dockhand_pgid facts
+  ansible.builtin.set_fact:
+    dockhand_puid: "{{ _dockhand_uid.stdout }}"
+    dockhand_pgid: "{{ _dockhand_gid.stdout }}"
+  tags: install
+
+- name: Create dockhand config directory
+  ansible.builtin.file:
+    path: "{{ dockhand_config_dir }}"
+    state: directory
+    owner: "{{ dockhand_user }}"
+    group: "{{ dockhand_group }}"
+    mode: 'u=rwx,g=rx,o=-'
+  tags: install
+
+- name: Deploy dockhand docker-compose file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ dockhand_config_dir }}/docker-compose.yml"
+    owner: "{{ dockhand_user }}"
+    group: "{{ dockhand_group }}"
+    mode: 'u=rw,g=r,o=-'
+  notify: Restart dockhand
+  tags: install
+
+- name: Deploy dockhand env file
+  ansible.builtin.template:
+    src: dockhand.env.j2
+    dest: "{{ dockhand_config_dir }}/.env"
+    owner: "{{ dockhand_user }}"
+    group: "{{ dockhand_group }}"
+    mode: 'u=rw,g=r,o=-'
+  notify: Restart dockhand
+  tags: install
+
+- name: Pull dockhand image
+  community.docker.docker_compose_v2_pull:
+    project_src: "{{ dockhand_config_dir }}"
+    policy: missing
+  tags: install
+
+- name: Start dockhand service
+  community.docker.docker_compose_v2:
+    project_src: "{{ dockhand_config_dir }}"
+    state: present
+  tags: install

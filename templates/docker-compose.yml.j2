@@ -1,0 +1,34 @@
+{# Managed by Ansible – role: dockhand #}
+{# Manual changes will be overwritten on the next Ansible run! #}
+---
+services:
+  {{ dockhand_container_name }}:
+    image: "{{ dockhand_image }}"
+    container_name: "{{ dockhand_container_name }}"
+    restart: "{{ dockhand_restart_policy }}"
+    volumes:
+      - "{{ dockhand_docker_socket }}:/var/run/docker.sock"
+      - "{{ dockhand_data_dir }}:/app/data"
+    env_file:
+      - .env
+{% if dockhand_extra_env %}
+    environment:
+{% for key, value in dockhand_extra_env.items() %}
+      - "{{ key }}={{ value }}"
+{% endfor %}
+{% endif %}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.{{ dockhand_container_name }}.rule=Host(`{{ dockhand_domain }}`)"
+      - "traefik.http.routers.{{ dockhand_container_name }}.entrypoints={{ dockhand_traefik_entrypoint }}"
+      - "traefik.http.routers.{{ dockhand_container_name }}.tls.certresolver={{ dockhand_traefik_certresolver }}"
+      - "traefik.http.services.{{ dockhand_container_name }}.loadbalancer.server.port={{ dockhand_port }}"
+{% for key, value in dockhand_extra_labels.items() %}
+      - "{{ key }}={{ value }}"
+{% endfor %}
+    networks:
+      - "{{ dockhand_traefik_network }}"
+
+networks:
+  {{ dockhand_traefik_network }}:
+    external: true

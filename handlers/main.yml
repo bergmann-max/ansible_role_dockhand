@@ -1,8 +1,9 @@
 ---
-# roles/ansible_role_template/handlers/main.yml
+# roles/dockhand/handlers/main.yml
 
-- name: Reload bar
-  ansible.builtin.systemd:
-    name: bar
-    state: reloaded
-    enabled: true
+- name: Restart dockhand
+  community.docker.docker_compose_v2:
+    project_src: "{{ dockhand_config_dir }}"
+    state: present
+    recreate: always
+  listen: "Restart dockhand"

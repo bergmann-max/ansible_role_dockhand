@@ -1,0 +1,12 @@
+---
+# roles/dockhand/tasks/configure.yml
+
+- name: Deploy dockhand environment file
+  ansible.builtin.template:
+    src: dockhand.env.j2
+    dest: "{{ dockhand_config_dir }}/.env"
+    owner: "{{ dockhand_user }}"
+    group: "{{ dockhand_group }}"
+    mode: 'u=rw,g=-,o=-'
+  notify: Restart dockhand
+  tags: configure
